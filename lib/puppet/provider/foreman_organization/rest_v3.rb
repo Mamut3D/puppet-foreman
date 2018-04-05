@@ -19,12 +19,12 @@ Puppet::Type.type(:foreman_organization).provide(:rest_v3, :parent => Puppet::Ty
 
   def create
     post_data = {:organization => {:name => resource[:name]}}.to_json
-    r = request(:post, 'api/v2/organization', {}, post_data)
+    r = request(:post, 'api/v2/organizations', {}, post_data)
     raise Puppet::Error.new("Organization #{resource[:name]} cannot be registered: #{error_message(r)}") unless success?(r)
   end
 
   def destroy
-    r = request(:delete, "api/v2/smart_proxies/#{id}")
+    r = request(:delete, "api/v2/organizations/#{id}")
     raise Puppet::Error.new("Organization #{resource[:name]} cannot be removed: #{error_message(r)}") unless success?(r)
     @proxy = nil
   end
