@@ -8,6 +8,11 @@ Puppet::Type.newtype(:foreman_organization) do
     isrequired
   end
 
+  newparam(:description) do
+    desc 'The description of the organization.'
+    defaultto nil
+  end
+
   newparam(:base_url) do
     desc 'Foreman\'s base url.'
   end

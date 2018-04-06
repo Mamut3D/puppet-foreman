@@ -14,11 +14,17 @@ Puppet::Type.type(:foreman_organization).provide(:rest_v3, :parent => Puppet::Ty
   end
 
   def exists?
-    !id.nil?
+    return false if id.nil?
+    organization['description'] == resource[:description]
   end
 
   def create
-    post_data = {:organization => {:name => resource[:name]}}.to_json
+    post_data = {
+      organization: {
+        name: resource[:name],
+        description: resource[:description]
+      }
+    }.to_json
     r = request(:post, 'api/v2/organizations', {}, post_data)
     raise Puppet::Error.new("Organization #{resource[:name]} cannot be registered: #{error_message(r)}") unless success?(r)
   end
